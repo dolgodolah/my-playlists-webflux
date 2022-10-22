@@ -1,6 +1,6 @@
 package com.myplaylists.router
 
-import com.myplaylists.handler.HelloHandler
+import com.myplaylists.handler.PlaylistHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
@@ -12,11 +12,11 @@ import org.springframework.web.reactive.function.server.RequestPredicates.GET
 import org.springframework.web.reactive.function.server.RequestPredicates.accept
 
 @Configuration
-class HelloRouter {
+class PlaylistRouter {
 
     @Bean
-    fun route(helloHandler: HelloHandler): RouterFunction<ServerResponse> {
+    fun route(playlistHandler: PlaylistHandler): RouterFunction<ServerResponse> {
         return RouterFunctions
-            .route(GET("/hello").and(accept(MediaType.APPLICATION_JSON)), helloHandler::hello)
+            .route(GET("/hello").and(accept(MediaType.APPLICATION_JSON)), playlistHandler::hello)
     }
 }

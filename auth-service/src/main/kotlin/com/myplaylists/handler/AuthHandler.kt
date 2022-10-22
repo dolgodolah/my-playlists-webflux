@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.server.ServerResponse
 import reactor.core.publisher.Mono
 
 @Component
-class HelloHandler {
+class AuthHandler {
 
     fun hello(request: ServerRequest): Mono<ServerResponse> {
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue("Hello"))
