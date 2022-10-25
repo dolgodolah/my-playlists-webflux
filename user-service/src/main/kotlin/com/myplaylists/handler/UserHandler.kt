@@ -1,5 +1,7 @@
 package com.myplaylists.handler
 
+import com.myplaylists.dto.ErrorResponse
+import com.myplaylists.dto.ResponseCode
 import com.myplaylists.service.UserService
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -16,6 +18,8 @@ class UserHandler(
         val userId = request.pathVariable("userId").toLong()
         return userService.findUserById(userId).flatMap {
             ServerResponse.ok().json().bodyValue(it)
+        }.onErrorResume {
+            ServerResponse.ok().json().bodyValue(ErrorResponse(ResponseCode.NOT_FOUND, it.message))
         }
     }
 }
