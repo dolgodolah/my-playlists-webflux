@@ -1,16 +1,21 @@
 package com.myplaylists.handler
 
-import org.springframework.http.MediaType
+import com.myplaylists.service.UserService
 import org.springframework.stereotype.Component
-import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.reactive.function.server.json
 import reactor.core.publisher.Mono
 
 @Component
-class UserHandler() {
+class UserHandler(
+    private val userService: UserService,
+) {
 
-    fun getMyInfo(request: ServerRequest): Mono<ServerResponse> {
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue("Hello"))
+    fun findUserById(request: ServerRequest): Mono<ServerResponse> {
+        val userId = request.pathVariable("userId").toLong()
+        return userService.findUserById(userId).flatMap {
+            ServerResponse.ok().json().bodyValue(it)
+        }
     }
 }

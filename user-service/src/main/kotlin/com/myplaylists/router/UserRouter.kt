@@ -17,6 +17,6 @@ class UserRouter {
     @Bean
     fun route(userHandler: UserHandler): RouterFunction<ServerResponse> {
         return RouterFunctions
-            .route(GET("/me").and(accept(MediaType.APPLICATION_JSON)), userHandler::getMyInfo)
+            .route(GET("/users/{userId}").and(accept(MediaType.APPLICATION_JSON)), userHandler::findUserById)
     }
 }
