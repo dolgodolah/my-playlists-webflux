@@ -1,6 +1,10 @@
 package com.myplaylists.domain
 
+import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Column
+
 class User(
+    @Id @Column("user_id")
     val id: Long? = null,
     var name: String,
     var nickname: String,
