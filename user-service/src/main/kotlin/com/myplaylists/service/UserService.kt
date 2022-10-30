@@ -1,5 +1,6 @@
 package com.myplaylists.service
 
+import com.myplaylists.domain.User
 import com.myplaylists.dto.OauthDTO
 import com.myplaylists.dto.UserDTO
 import com.myplaylists.exception.BadRequestException
@@ -17,14 +18,15 @@ class UserService(
     private val userRepository: UserRepository,
 ) {
     fun createUser(oauthDTO: OauthDTO): Mono<UserDTO> {
-        return userRepository.save(oauthDTO.toEntity()).map {
-            UserDTO.of(it)
+        val user = User.of(oauthDTO)
+        return userRepository.save(user).map { user ->
+            user.toDTO()
         }
     }
 
     fun findUserById(userId: Long): Mono<UserDTO> {
-        return userRepository.findById(userId).map {
-            UserDTO.of(it)
+        return userRepository.findById(userId).map { user ->
+            user.toDTO()
         }.switchIfEmpty {
             Mono.error(NotFoundException("해당 사용자는 존재하지 않는 사용자입니다."))
         }
@@ -32,7 +34,7 @@ class UserService(
 
     fun findAllUserByEmail(email: String): Flux<UserDTO> {
         return userRepository.findAllByEmail(email).map { user ->
-            UserDTO.of(user)
+            user.toDTO()
         }
     }
 
@@ -45,7 +47,7 @@ class UserService(
             user.updateNickname(userDTO.nickname)
             userRepository.save(user)
         }.map { user ->
-            UserDTO.of(user)
+            user.toDTO()
         }.switchIfEmpty {
             Mono.error(NotFoundException("해당 사용자는 존재하지 않는 사용자입니다."))
         }

@@ -1,5 +1,8 @@
 package com.myplaylists.domain
 
+import com.myplaylists.dto.OauthDTO
+import com.myplaylists.dto.OauthType
+import com.myplaylists.dto.UserDTO
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import java.time.LocalDateTime
@@ -15,16 +18,28 @@ class User(
     var updatedDate: LocalDateTime = LocalDateTime.now()
 ) {
 
+    companion object {
+        fun of(oauthDTO: OauthDTO): User =
+            User(
+                email = oauthDTO.email,
+                name = oauthDTO.name,
+                nickname = oauthDTO.name,
+                oauthType = oauthDTO.oauthType
+            )
+
+    }
+
     fun updateNickname(nickname: String) {
         if (this.nickname != nickname) {
             this.nickname = nickname
             this.updatedDate = LocalDateTime.now()
         }
     }
-}
 
-enum class OauthType(
-    val value: Int,
-) {
-    NONE(0), KAKAO(1), GOOGLE(2)
+    fun toDTO(): UserDTO =
+        UserDTO(
+            email = this.email,
+            name = this.name,
+            nickname = this.nickname
+        )
 }
