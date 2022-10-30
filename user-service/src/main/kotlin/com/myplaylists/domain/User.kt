@@ -2,16 +2,25 @@ package com.myplaylists.domain
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
+import java.time.LocalDateTime
 
 class User(
     @Id @Column("user_id")
-    val id: Long? = null,
+    var id: Long? = null,
     var name: String,
     var nickname: String,
     var email: String,
-    val oauthType: OauthType
+    val oauthType: OauthType,
+    var createdDate: LocalDateTime = LocalDateTime.now(),
+    var updatedDate: LocalDateTime = LocalDateTime.now()
 ) {
-    constructor(name: String, nickname: String, email: String, oauthType: OauthType): this(null, name, nickname, email, oauthType)
+
+    fun updateNickname(nickname: String) {
+        if (this.nickname != nickname) {
+            this.nickname = nickname
+            this.updatedDate = LocalDateTime.now()
+        }
+    }
 }
 
 enum class OauthType(

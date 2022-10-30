@@ -11,3 +11,7 @@ open class ApiException(
 class NotFoundException(
     message: String? = null
 ): ApiException(ResponseCode.NOT_FOUND.statusCode, message)
+
+class BadRequestException(
+    message: String? = null
+): ApiException(ResponseCode.BAD_REQUEST.statusCode, message)

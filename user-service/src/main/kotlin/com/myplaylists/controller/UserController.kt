@@ -1,13 +1,10 @@
 package com.myplaylists.controller
 
-import com.myplaylists.domain.OauthType
 import com.myplaylists.dto.OauthDTO
 import com.myplaylists.dto.UserDTO
 import com.myplaylists.service.UserService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @RestController
@@ -15,9 +12,23 @@ class UserController(
     private val userService: UserService,
 ) {
 
+    @PostMapping("/users")
+    fun createUser(@RequestBody oauthDTO: OauthDTO): Mono<UserDTO> {
+        return userService.createUser(oauthDTO)
+    }
 
     @GetMapping("/users/{userId}")
     fun findUserById(@PathVariable userId: Long): Mono<UserDTO> {
         return userService.findUserById(userId)
+    }
+
+    @GetMapping("/users")
+    fun findAllUserByEmail(@RequestParam email: String): Flux<UserDTO> {
+        return userService.findAllUserByEmail(email)
+    }
+
+    @PutMapping("/users/{userId}")
+    fun updateUserInfo(@PathVariable userId: Long, @RequestBody userDTO: UserDTO): Mono<UserDTO> {
+        return userService.updateUserInfo(userId, userDTO)
     }
 }
