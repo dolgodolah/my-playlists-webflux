@@ -12,8 +12,8 @@ class UserController(
     private val userService: UserService,
 ) {
 
-    @PostMapping("/users")
-    fun createUser(@RequestBody oauthDTO: OauthDTO): Mono<UserDTO> {
+    @PostMapping("/signup")
+    fun signup(@RequestBody oauthDTO: OauthDTO): Mono<UserDTO> {
         return userService.createUser(oauthDTO)
     }
 

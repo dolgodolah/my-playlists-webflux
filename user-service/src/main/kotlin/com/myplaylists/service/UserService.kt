@@ -1,23 +1,26 @@
 package com.myplaylists.service
 
+import com.myplaylists.dao.UserRepository
 import com.myplaylists.domain.User
 import com.myplaylists.dto.OauthDTO
 import com.myplaylists.dto.UserDTO
 import com.myplaylists.exception.BadRequestException
 import com.myplaylists.exception.NotFoundException
-import com.myplaylists.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.switchIfEmpty
-import java.time.LocalDateTime
 
 @Service
 class UserService(
     private val userRepository: UserRepository,
 ) {
     fun createUser(oauthDTO: OauthDTO): Mono<UserDTO> {
+        if (!StringUtils.hasText(oauthDTO.email)) {
+            throw BadRequestException("이메일은 필수입니다. 카카오로 로그인 시 이메일 제공에 동의하지 않았다면 카카오 계정 > 연결된 서비스 관리 > 내플리스 > 연결 끊기 후 이메일 제공에 동의해주세요.")
+        }
+
         val user = User.of(oauthDTO)
         return userRepository.save(user).map { user ->
             user.toDTO()
