@@ -1,4 +1,4 @@
-package com.myplaylists.repository
+package com.myplaylists.dao
 
 import com.myplaylists.domain.User
 import org.springframework.data.r2dbc.repository.R2dbcRepository

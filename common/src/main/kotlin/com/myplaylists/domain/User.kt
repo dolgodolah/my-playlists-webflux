@@ -29,9 +29,21 @@ class User(
 
     }
 
+    fun updateUserInfo(userDTO: UserDTO) {
+        updateNickname(userDTO.nickname)
+        updateName(userDTO.name)
+    }
+
     fun updateNickname(nickname: String) {
         if (this.nickname != nickname) {
             this.nickname = nickname
+            this.updatedDate = LocalDateTime.now()
+        }
+    }
+
+    fun updateName(name: String) {
+        if (this.name != name) {
+            this.name = name
             this.updatedDate = LocalDateTime.now()
         }
     }
@@ -40,6 +52,7 @@ class User(
         UserDTO(
             email = this.email,
             name = this.name,
-            nickname = this.nickname
+            nickname = this.nickname,
+            oauthType = this.oauthType
         )
 }
