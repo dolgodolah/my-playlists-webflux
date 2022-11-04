@@ -15,3 +15,7 @@ class NotFoundException(
 class BadRequestException(
     message: String? = null
 ): ApiException(ResponseCode.BAD_REQUEST.statusCode, message)
+
+class SignupRequiredException(
+    message: String = "회원가입을 먼저 진행해주세요.",
+): ApiException(ResponseCode.SIGNUP_REQUIRED.statusCode, message)

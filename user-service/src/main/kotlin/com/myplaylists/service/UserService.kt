@@ -47,7 +47,7 @@ class UserService(
         }
 
         return userRepository.findById(userId).flatMap { user ->
-            user.updateNickname(userDTO.nickname)
+            user.updateUserInfo(userDTO)
             userRepository.save(user)
         }.map { user ->
             user.toDTO()
